@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Punto1_HillClimb",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Punto1_HillClimb.py",
+            "console": "integratedTerminal"
+        }
+    ]
+}

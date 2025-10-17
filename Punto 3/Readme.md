@@ -7,7 +7,7 @@ El objetivo de este ejercicio es **crear un horario escolar óptimo** que cumpla
 3. Respetar preferencias horarias para ciertas materias.  
 4. Lograr una distribución balanceada de asignaturas entre los grupos.
 
-Para resolverlo, se utiliza un **Algoritmo Genético** que busca mejorar iterativamente una población de posibles horarios hasta encontrar una combinación con el mejor “puntaje de ajuste” o *fitness*.
+Para resolverlo, se utiliza un **Algoritmo Genético** que busca mejorar iterativamente una población de posibles horarios hasta encontrar una combinación con el mejor o *fitness*.
 
 ---
 

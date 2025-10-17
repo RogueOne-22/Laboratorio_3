@@ -1,0 +1,124 @@
+import numpy as np
+import random
+import matplotlib.pyplot as plt
+
+class ScheduleOptimizer:
+    def __init__(self, mutation_rate=0.1, generations=100, pop_size=500):
+        self.teachers = ["ProfA", "ProfB", "ProfC", "ProfD"]
+        self.subjects = ["Matemáticas", "Ciencias", "Historia", "Arte"]
+        self.groups = ["Grupo1", "Grupo2", "Grupo3"]
+        self.time_slots = ["Lun-9:00", "Lun-11:00", "Mar-9:00", "Mar-11:00", "Mié-9:00", "Mié-11:00"]
+        self.preferences = {
+            "Matemáticas": ["Lun-9:00", "Mar-9:00"],
+            "Ciencias": ["Mar-11:00"],
+            "Historia": ["Mié-9:00"],
+            "Arte": ["Mié-11:00"]
+        }
+        self.mutation_rate = mutation_rate
+        self.generations = generations
+        self.pop_size = pop_size
+
+    # Crear horario aleatorio
+    def create_schedule(self):
+        schedule = []
+        for time in self.time_slots:
+            for group in self.groups:
+                teacher = np.random.choice(self.teachers)
+                subject = np.random.choice(self.subjects)
+                schedule.append((time, group, teacher, subject))
+        return schedule
+
+    # Calcular fitness basado en restricciones
+    def evaluate_schedule(self, schedule):
+        score = 100  # partimos de 100 y restamos penalizaciones
+
+        # 1️⃣ Penalizar superposición de profesores en el mismo horario
+        for time in self.time_slots:
+            teachers_in_time = [cls[2] for cls in schedule if cls[0] == time]
+            if len(set(teachers_in_time)) < len(teachers_in_time):  # hay repetición
+                score -= 10
+
+        # 2️⃣ Penalizar materias fuera de su horario preferido
+        for (time, _, _, subject) in schedule:
+            if subject in self.preferences:
+                if time not in self.preferences[subject]:
+                    score -= 2  # penalización leve
+
+        # 3️⃣ Recompensar distribución equilibrada de materias
+        subject_counts = {s: 0 for s in self.subjects}
+        for (_, _, _, subject) in schedule:
+            subject_counts[subject] += 1
+        balance_penalty = np.std(list(subject_counts.values()))
+        score -= balance_penalty * 2
+
+        return score
+
+    # Cruce
+    def crossover(self, parent1, parent2):
+        point = random.randint(0, len(parent1) - 1)
+        child = parent1[:point] + parent2[point:]
+        return child
+
+    # Mutación
+    def mutate(self, schedule):
+        if random.random() < self.mutation_rate:
+            idx = random.randint(0, len(schedule) - 1)
+            time, group, teacher, subject = schedule[idx]
+            new_teacher = np.random.choice(self.teachers)
+            new_subject = np.random.choice(self.subjects)
+            schedule[idx] = (time, group, new_teacher, new_subject)
+        return schedule
+
+    # Ejecución del GA
+    def run(self):
+        population = [self.create_schedule() for _ in range(self.pop_size)]
+        best_score_history = []
+
+        for _ in range(self.generations):
+            fitness = np.array([self.evaluate_schedule(s) for s in population])
+            best_score_history.append(np.max(fitness))
+            parents_idx = np.argsort(fitness)[-2:]
+            parent1, parent2 = population[parents_idx[0]], population[parents_idx[1]]
+
+            new_population = []
+            for _ in range(self.pop_size):
+                child = self.crossover(parent1, parent2)
+                child = self.mutate(child)
+                new_population.append(child)
+            population = new_population
+
+        # Mejor individuo final
+        best_idx = np.argmax([self.evaluate_schedule(s) for s in population])
+        best_schedule = population[best_idx]
+        best_score = self.evaluate_schedule(best_schedule)
+        return best_schedule, best_score, best_score_history
+
+
+# 🔬 Ejecución con diferentes tasas de mutación
+mutation_rates = [0.01, 0.09, 1.70, 2.50]
+colors = ["b", "g", "orange", "r"]
+results = []
+
+plt.figure(figsize=(10, 6))
+
+for i, rate in enumerate(mutation_rates):
+    optimizer = ScheduleOptimizer(mutation_rate=rate)
+    best_schedule, best_score, fitness_hist = optimizer.run()
+    results.append((rate, best_score, best_schedule))
+    plt.plot(fitness_hist, color=colors[i], label=f"Mutación {rate}")
+
+plt.title("Convergencia Optimización de Horarios")
+plt.xlabel("Generaciones")
+plt.ylabel("Puntaje Fitness")
+plt.legend()
+plt.grid(True)
+plt.savefig("optimizacion_horarios_fitness.png", dpi=300)
+plt.show()
+
+# 📋 Mostrar resultados finales
+for rate, score, schedule in results:
+    print(f"\n--- MUTACIÓN {rate} ---")
+    print(f"Mejor puntaje: {score}")
+    print("Horario óptimo encontrado:")
+    for cls in schedule:
+        print(cls)

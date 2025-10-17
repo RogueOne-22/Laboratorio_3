@@ -127,16 +127,16 @@ Cada una se representa con un color diferente en la gráfica de convergencia.
 
 Se genera una gráfica que muestra cómo evoluciona el puntaje máximo de fitness a lo largo de las generaciones para cada tasa de mutación.
 
-[Convergencia ](https://github.com/RogueOne-22/Laboratorio_3/blob/8db581842b6e2f8f5ea0afae29178e9a61dea037/Punto%203/optimizacion_horarios_fitness.png)
+![Convergencia](https://github.com/RogueOne-22/Laboratorio_3/blob/5d1bfce1c63bf2a1e7be2fcef399dbfe93eb6aca/Punto%203/optimizacion_horarios_fitness.png)
 
 ---
 ###**Horarios**
 
-[Horario 1](https://github.com/RogueOne-22/Laboratorio_3/blob/8db581842b6e2f8f5ea0afae29178e9a61dea037/Punto%203/horario_optimo_mut_1.png)
+![Horario 1](https://github.com/RogueOne-22/Laboratorio_3/blob/5d1bfce1c63bf2a1e7be2fcef399dbfe93eb6aca/Punto%203/horario_optimo_mut_1.png)
 
-[Horario 2](https://github.com/RogueOne-22/Laboratorio_3/blob/8db581842b6e2f8f5ea0afae29178e9a61dea037/Punto%203/horario_optimo_mut_5.png)
+![Horario 2](https://github.com/RogueOne-22/Laboratorio_3/blob/5d1bfce1c63bf2a1e7be2fcef399dbfe93eb6aca/Punto%203/horario_optimo_mut_5.png)
 
-[horario 3](https://github.com/RogueOne-22/Laboratorio_3/blob/8db581842b6e2f8f5ea0afae29178e9a61dea037/Punto%203/horario_optimo_mut_10.png)
+![Horario 3](https://github.com/RogueOne-22/Laboratorio_3/blob/5d1bfce1c63bf2a1e7be2fcef399dbfe93eb6aca/Punto%203/horario_optimo_mut_10.png)
 
 ## 🧾 Resultados esperados
 
